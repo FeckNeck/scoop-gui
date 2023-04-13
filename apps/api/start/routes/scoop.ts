@@ -1,16 +1,16 @@
 import Route from "@ioc:Adonis/Core/Route";
 
 Route.group(() => {
-  Route.get("/:id", "AppsController.show").as("show");
+  Route.get("/:id", "ScoopsController.show").as("show");
   Route.group(() => {
-    Route.post("/", "AppsController.updateAll").as("updateAll");
-    Route.put("/:id", "AppsController.update").as("update");
+    Route.post("/", "ScoopsController.updateAll").as("updateAll");
+    Route.put("/:id", "ScoopsController.update").as("update");
   })
     .prefix("/update")
     .as("update");
   Route.group(() => {
-    Route.post("/", "AppsController.cleanAll").as("cleanAll");
-    Route.put("/:id", "AppsController.clean").as("clean");
+    Route.post("/", "ScoopsController.cleanAll").as("cleanAll");
+    Route.put("/:id", "ScoopsController.clean").as("clean");
   })
     .prefix("/clean")
     .as("clean");
