@@ -1,12 +1,10 @@
 import type { HttpContextContract } from "@ioc:Adonis/Core/HttpContext";
+import { getApps } from "../../modules/scrap";
 
 export default class AppsController {
-  public async index({}: HttpContextContract) {
-    return "List of apps";
-  }
-
-  public async show({ params }: HttpContextContract) {
-    return `Show app ${params.id}`;
+  public async index() {
+    const apps = await getApps();
+    return apps;
   }
 
   public async installed({}: HttpContextContract) {
