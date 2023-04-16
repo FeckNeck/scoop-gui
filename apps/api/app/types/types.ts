@@ -1,4 +1,4 @@
-declare interface AppContent {
+export interface AppContent {
   version: string;
   description: string;
   homepage: string;
@@ -12,7 +12,7 @@ declare interface AppContent {
   bin: string[];
 }
 
-declare interface AppStatus {
+export interface AppStatus {
   name: string;
   installedVersion: string;
   latestVersion: string;
@@ -20,7 +20,7 @@ declare interface AppStatus {
   Info?: string;
 }
 
-declare interface AppInfo {
+export interface AppInfo {
   name: string;
   description: string;
   version: string;
@@ -33,7 +33,7 @@ declare interface AppInfo {
   shortcuts: string;
 }
 
-declare interface ScoopStatus {
+export interface ScoopStatus {
   status: string;
   apps: AppStatus[];
 }
