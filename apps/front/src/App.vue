@@ -30,6 +30,7 @@ import AppStatus from "./components/AppStatus.vue";
   grid-template-columns: 25rem 1fr;
   height: 100%;
   grid-template-rows: 1fr 20rem;
+  gap: 0.5rem;
 }
 
 aside {
@@ -40,6 +41,9 @@ aside {
 
 main {
   grid-area: main;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
 }
 
 footer {

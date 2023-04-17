@@ -1,16 +1,27 @@
 <script setup lang="ts">
-import { ref } from "vue";
+import { useApps } from "../hooks/apps";
 
-const list = ref(["app1", "app2", "app3"]);
+const { isLoading, apps, error } = useApps();
 </script>
 
 <template>
-  <div>
-    <p>App List</p>
-    <ul>
-      <li v-for="item in list" :key="item">{{ item }}</li>
+  <div class="apps-container">
+    <p v-if="isLoading">loading...</p>
+    <p v-else-if="error">error</p>
+    <ul v-else-if="apps" class="app-list">
+      <li v-for="app in apps" :key="app.url">
+        <p v-if="app.homepage === 'https://insomnia.rest'">{{ app }}</p>
+      </li>
     </ul>
   </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+.apps-container {
+  overflow-y: auto;
+}
+
+.app-list {
+  height: 100%;
+}
+</style>
