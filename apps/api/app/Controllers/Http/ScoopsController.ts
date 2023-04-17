@@ -9,13 +9,6 @@ export default class ScoopsController {
     return ScoopStatus;
   }
 
-  public async show({ params }: HttpContextContract) {
-    const { id } = params;
-    const { stdout } = await execa("scoop", ["info", id]);
-    const appInfo = getAppInfo(stdout);
-    return appInfo;
-  }
-
   public async install({ params }: HttpContextContract) {
     const { id } = params;
     const { stdout } = await execa("scoop", ["install", id]);
