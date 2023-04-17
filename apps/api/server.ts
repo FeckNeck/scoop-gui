@@ -9,13 +9,10 @@
 | by AdonisJs service providers for custom code.
 |
 */
+import "reflect-metadata";
+import sourceMapSupport from "source-map-support";
+import { Ignitor } from "@adonisjs/core/build/standalone";
 
-import 'reflect-metadata'
-import sourceMapSupport from 'source-map-support'
-import { Ignitor } from '@adonisjs/core/build/standalone'
+sourceMapSupport.install({ handleUncaughtExceptions: false });
 
-sourceMapSupport.install({ handleUncaughtExceptions: false })
-
-new Ignitor(__dirname)
-  .httpServer()
-  .start()
+new Ignitor(__dirname).httpServer().start();
