@@ -1,9 +1,11 @@
 import { useQuery } from "@tanstack/vue-query";
-import getAppInfo from "../services/scoop";
+import { getScoopStatus } from "../services/scoop";
 
-export function useAppInfo(app: string) {
-  const { isLoading, data, error } = useQuery(["appInfo", app], () =>
-    getAppInfo(app)
-  );
-  return { isLoading, data, error };
+export function useScoopStatus() {
+  const {
+    isLoading,
+    data: status,
+    error,
+  } = useQuery(["status"], () => getScoopStatus());
+  return { isLoading, status, error };
 }

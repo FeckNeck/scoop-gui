@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useAppInfo } from "../hooks/scoop";
+import { useAppInfo } from "../hooks/apps";
 
 const { isLoading, info, error } = useAppInfo("insomnia");
 </script>
