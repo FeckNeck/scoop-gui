@@ -16,6 +16,9 @@ Route.group(() => {
   })
     .prefix("/clean")
     .as("clean");
+
+  Route.post("/install", "ScoopsController.install").as("install");
+  Route.delete("/uninstall", "ScoopsController.uninstall").as("uninstall");
 })
   .prefix("/scoop")
   .as("scoop");
