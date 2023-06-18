@@ -1,5 +1,11 @@
 import type { HttpContextContract } from "@ioc:Adonis/Core/HttpContext";
-import { getApps } from "../../modules/scrap";
+import {
+  getApps,
+  getAppInfo,
+  getInstalledApps,
+  getAvailableApps,
+} from "../../modules/scrap";
+import execa from "execa";
 
 export default class AppsController {
   public async index() {
@@ -7,19 +13,20 @@ export default class AppsController {
     return apps;
   }
 
-  public async installed({}: HttpContextContract) {
-    return "List of installed apps";
+  public async show({ params }: HttpContextContract) {
+    const { id } = params;
+    const { stdout } = await execa("scoop", ["info", id]);
+    const appInfo = getAppInfo(stdout);
+    return appInfo;
   }
 
-  public async installable({}: HttpContextContract) {
-    return "List of installable apps";
+  public async installed() {
+    const apps = getInstalledApps();
+    return apps;
   }
 
-  public async store({ params }: HttpContextContract) {
-    return `Install app ${params.id}`;
-  }
-
-  public async destroy({ params }: HttpContextContract) {
-    return `Uninstall app ${params.id}`;
+  public async available() {
+    const apps = getAvailableApps();
+    return apps;
   }
 }

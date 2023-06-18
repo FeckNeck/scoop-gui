@@ -1,5 +1,5 @@
 import type { HttpContextContract } from "@ioc:Adonis/Core/HttpContext";
-import { getScoopStatus, getAppInfo } from "../../modules/scrap";
+import { getScoopStatus } from "../../modules/scrap";
 import execa from "execa";
 
 export default class ScoopsController {
@@ -9,17 +9,25 @@ export default class ScoopsController {
     return ScoopStatus;
   }
 
-  public async show({ params }: HttpContextContract) {
-    const { id } = params;
-    const { stdout } = await execa("scoop", ["info", id]);
-    const appInfo = getAppInfo(stdout);
-    return appInfo;
-  }
-
-  public async install({ params }: HttpContextContract) {
+  public async install({ params, response }: HttpContextContract) {
     const { id } = params;
     const { stdout } = await execa("scoop", ["install", id]);
-    return stdout;
+    if (stdout.includes("WARN")) {
+      return response.status(403).send(id + " is already installed");
+    }
+    if (stdout.includes("was installed successfully")) {
+      return response.send(id + " was installed successfully !");
+    }
+    return response.status(403).send(id + " not found");
+  }
+
+  public async uninstall({ params, response }: HttpContextContract) {
+    const { id } = params;
+    const { stdout } = await execa("scoop", ["uninstall", id]);
+    if (stdout.includes("ERROR")) {
+      return response.status(403).send(id + " is not installed");
+    }
+    return response.send(id + " was uninstalled successfully !");
   }
 
   public async updateAll() {
@@ -27,20 +35,26 @@ export default class ScoopsController {
     return stdout;
   }
 
-  public async update({ params }: HttpContextContract) {
+  public async update({ params, response }: HttpContextContract) {
     const { id } = params;
     const { stdout } = await execa("scoop", ["update", id]);
+    if (stdout.includes("ERROR")) {
+      return response.status(403).send(id + " is not installed");
+    }
+    if (stdout.includes("Latest versions for all apps are installed")) {
+      return response.send("Latest versions for all apps are installed");
+    }
     return stdout;
   }
 
   public async cleanAll() {
-    const { stdout } = await execa("scoop", ["clean", "*"]);
+    const { stdout } = await execa("scoop", ["cleanup", "*"]);
     return stdout;
   }
 
   public async clean({ params }: HttpContextContract) {
     const { id } = params;
-    const { stdout } = await execa("scoop", ["clean", id]);
+    const { stdout } = await execa("scoop", ["cleanup", id]);
     return stdout;
   }
 }

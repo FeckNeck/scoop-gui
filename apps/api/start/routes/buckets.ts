@@ -1,11 +1,10 @@
 import Route from "@ioc:Adonis/Core/Route";
 
 Route.group(() => {
-  Route.get("/", "BucketsController.index").as("index");
   Route.get("/installed", "BucketsController.installed").as("installed");
-  Route.get("/installable", "BucketsController.installable").as("installable");
-  Route.post("/:id", "BucketsController.store").as("store");
-  Route.delete("/:id", "BucketsController.destroy").as("destroy");
+  Route.get("/available", "BucketsController.available").as("available");
+  Route.post("/:id", "BucketsController.add").as("add");
+  Route.delete("/:id", "BucketsController.remove").as("remove");
 })
   .prefix("/buckets")
   .as("buckets");
