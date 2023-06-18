@@ -1,15 +1,16 @@
 <script setup lang="ts">
-import BucketList from "./components/BucketList.vue";
 import AppContainer from "./components/AppContainer.vue";
 import AppInfo from "./components/AppInfo.vue";
 import AppStatus from "./components/AppStatus.vue";
+import AvailableBuckets from "./components/AvailableBuckets.vue";
+import InstalledBuckets from "./components/InstalledBuckets.vue";
 </script>
 
 <template>
   <div class="container">
     <aside>
-      <BucketList />
-      <BucketList />
+      <InstalledBuckets />
+      <AvailableBuckets />
     </aside>
     <main>
       <AppContainer />
@@ -37,6 +38,7 @@ aside {
   display: grid;
   grid-area: aside;
   grid-template-rows: repeat(2, 1fr);
+  border-right: 1px solid #ccc;
 }
 
 main {
