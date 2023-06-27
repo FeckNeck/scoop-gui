@@ -1,11 +1,12 @@
 <script setup lang="ts">
-import { useAvailableBuckets } from "../hooks/buckets";
+import { useAvailableBuckets, useInstallBucket } from "../hooks/buckets";
 import AppButton from "./AppButton.vue";
 
 const { buckets, error, isLoading } = useAvailableBuckets();
+const { mutate } = useInstallBucket();
 
-const installBuket = () => {
-  console.log("Create bucket");
+const installBuket = (bucket: string) => {
+  mutate(bucket);
 };
 </script>
 
@@ -17,11 +18,10 @@ const installBuket = () => {
     <div v-else>
       <ul>
         <li v-for="bucket in buckets" :key="bucket">
-          {{ bucket }}
+          <AppButton :label="bucket" type="add" @handleClick="installBuket" />
         </li>
       </ul>
     </div>
-    <AppButton label="Create bucket" type="add" @handleClick="installBuket" />
   </div>
 </template>
 

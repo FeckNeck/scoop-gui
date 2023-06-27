@@ -22,7 +22,7 @@ export default class BucketsController {
     if (stdout.includes("Unknown")) {
       return response.status(403).send("Bucket not found");
     }
-    return "bucket added successfully";
+    return id;
   }
 
   public async remove({ params, response }: HttpContextContract) {

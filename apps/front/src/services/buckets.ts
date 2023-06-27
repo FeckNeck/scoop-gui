@@ -8,4 +8,23 @@ const getAvailableBuckets = async (): Promise<string[]> => {
   return await fetch(`${API_URL}/buckets/available`).then((res) => res.json());
 };
 
-export { getInstalledBuckets, getAvailableBuckets };
+const installBucket = async (bucketName: string): Promise<string> => {
+  const bucket = await fetch(`${API_URL}/buckets/${bucketName}`, {
+    method: "POST",
+  }).then((res) => res.text());
+  return bucket;
+};
+
+const uninstallBucket = async (bucketName: string): Promise<string> => {
+  const bucket = await fetch(`${API_URL}/buckets/${bucketName}`, {
+    method: "POST",
+  }).then((res) => res.json());
+  return bucket;
+};
+
+export {
+  getInstalledBuckets,
+  getAvailableBuckets,
+  installBucket,
+  uninstallBucket,
+};

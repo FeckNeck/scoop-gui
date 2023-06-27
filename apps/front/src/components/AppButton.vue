@@ -1,13 +1,13 @@
 <script setup lang="ts">
 import { computed } from "vue";
 
-const props = defineProps({
-  label: String,
-  type: String,
-});
+const props = defineProps<{
+  label: string;
+  type: string;
+}>();
 
 defineEmits<{
-  handleClick: () => void;
+  handleClick: [bucket: string];
 }>();
 
 const ariaLabel = computed(() => {
@@ -17,7 +17,7 @@ const ariaLabel = computed(() => {
 
 <template>
   <button
-    @click="$emit('handleClick')"
+    @click="$emit('handleClick', props.label)"
     :aria-label="ariaLabel"
     class="app-button"
   >
