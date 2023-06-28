@@ -1,9 +1,4 @@
-import {
-  QueryClient,
-  useMutation,
-  useQuery,
-  useQueryClient,
-} from "@tanstack/vue-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/vue-query";
 import {
   getAvailableBuckets,
   getInstalledBuckets,
@@ -31,17 +26,43 @@ const useAvailableBuckets = () => {
 
 const useInstallBucket = () => {
   const queryClient = useQueryClient();
-
-  const { mutate } = useMutation({
+  const { mutate, isLoading: isMutating } = useMutation({
     mutationFn: (bucketName: string) => installBucket(bucketName),
+    mutationKey: ["installBucket"],
     onSuccess(bucket) {
       queryClient.setQueryData(["installedBuckets"], (buckets: any) => [
         ...buckets,
         bucket,
       ]);
+      queryClient.setQueryData(["availableBuckets"], (buckets: any) => [
+        ...buckets.filter((b: string) => b !== bucket),
+      ]);
     },
   });
-  return { mutate };
+  return { mutate, isMutating };
 };
 
-export { useInstalledBuckets, useAvailableBuckets, useInstallBucket };
+const useUninstallBucket = () => {
+  const queryClient = useQueryClient();
+  const { mutate, isLoading: isMutating } = useMutation({
+    mutationFn: (bucketName: string) => uninstallBucket(bucketName),
+    mutationKey: ["uninstallBucket"],
+    onSuccess(bucket) {
+      queryClient.setQueryData(["availableBuckets"], (buckets: any) => [
+        ...buckets,
+        bucket,
+      ]);
+      queryClient.setQueryData(["installedBuckets"], (buckets: any) => [
+        ...buckets.filter((b: string) => b !== bucket),
+      ]);
+    },
+  });
+  return { mutate, isMutating };
+};
+
+export {
+  useInstalledBuckets,
+  useAvailableBuckets,
+  useInstallBucket,
+  useUninstallBucket,
+};

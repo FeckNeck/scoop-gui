@@ -28,10 +28,9 @@ import InstalledBuckets from "./components/InstalledBuckets.vue";
   grid-template-areas:
     "aside main  "
     "aside footer";
-  grid-template-columns: 25rem 1fr;
+  grid-template-columns: 20rem 1fr;
   height: 100%;
   grid-template-rows: 1fr 20rem;
-  gap: 0.5rem;
 }
 
 aside {
@@ -46,6 +45,7 @@ main {
   min-height: 0;
   display: flex;
   flex-direction: column;
+  border-bottom: 1px solid #ccc;
 }
 
 footer {

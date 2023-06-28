@@ -8,6 +8,13 @@ import { useAppInfo } from "../hooks/apps";
   <!-- <p v-if="isLoading">loading...</p>
   <p v-else-if="error">error</p>
   <p v-else-if="info">{{ info }}</p> -->
+  <div class="app-info">
+    <p>App Info</p>
+  </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+.app-info {
+  border-right: 1px solid #ccc;
+}
+</style>

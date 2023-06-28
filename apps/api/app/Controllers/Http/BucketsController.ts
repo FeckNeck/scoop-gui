@@ -4,12 +4,14 @@ import execa from "execa";
 
 export default class BucketsController {
   public async installed() {
-    const buckets = getInstalledBuckets();
+    const buckets = await getInstalledBuckets();
+    if (buckets.length === 0) return "You don't have any bucket installed";
     return buckets;
   }
 
   public async available() {
-    const buckets = getAvailableBuckets();
+    const buckets = await getAvailableBuckets();
+    if (buckets.length === 0) return "All buckets are installed";
     return buckets;
   }
 
@@ -34,6 +36,6 @@ export default class BucketsController {
     if (stdout.includes("Unknown")) {
       return response.status(403).send("Bucket not found");
     }
-    return "bucket removed successfully";
+    return id;
   }
 }

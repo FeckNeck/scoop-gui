@@ -17,8 +17,8 @@ const installBucket = async (bucketName: string): Promise<string> => {
 
 const uninstallBucket = async (bucketName: string): Promise<string> => {
   const bucket = await fetch(`${API_URL}/buckets/${bucketName}`, {
-    method: "POST",
-  }).then((res) => res.json());
+    method: "DELETE",
+  }).then((res) => res.text());
   return bucket;
 };
 

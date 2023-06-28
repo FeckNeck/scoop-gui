@@ -1,20 +1,33 @@
 <script setup lang="ts">
-import { useInstalledBuckets } from "../hooks/buckets";
+import { useIsMutating } from "@tanstack/vue-query";
+import { useInstalledBuckets, useUninstallBucket } from "../hooks/buckets";
+import AppButton from "./AppButton.vue";
 
 const { buckets, isLoading, error } = useInstalledBuckets();
+const { mutate, isMutating } = useUninstallBucket();
+
+const isMutatingBuckets = useIsMutating({ mutationKey: ["installBucket"] });
 </script>
 
 <template>
-  <div>
+  <div class="installed-buckets">
     <p>Installed buckets</p>
-    <p v-if="isLoading">loading...</p>
+    <p v-if="isLoading || isMutating || isMutatingBuckets">loading...</p>
     <p v-else-if="error">error</p>
-    <ul v-else>
-      <li v-for="bucket in buckets" :key="bucket">
-        <p>{{ bucket }}</p>
-      </li>
-    </ul>
+    <div v-else>
+      <AppButton
+        v-for="bucket in buckets"
+        :key="bucket"
+        :label="bucket"
+        type="uninstall"
+        @handle-click="mutate(bucket)"
+      />
+    </div>
   </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+.installed-buckets {
+  border-bottom: 1px solid #ccc;
+}
+</style>

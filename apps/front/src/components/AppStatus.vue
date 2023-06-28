@@ -10,6 +10,7 @@ import { useScoopStatus } from "../hooks/scoop";
   <p v-else-if="status">
     {{ status }} 
   </p> -->
+  <p>App status</p>
 </template>
 
 <style scoped></style>

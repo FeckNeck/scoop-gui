@@ -3,7 +3,7 @@ import { computed } from "vue";
 
 const props = defineProps<{
   label: string;
-  type: string;
+  type: "install" | "uninstall";
 }>();
 
 defineEmits<{
@@ -22,8 +22,8 @@ const ariaLabel = computed(() => {
     class="app-button"
   >
     <p>{{ label }}</p>
-    <p v-if="type == 'install'">-</p>
-    <p v-else>+</p>
+    <p v-if="type == 'install'">+</p>
+    <p v-else>-</p>
   </button>
 </template>
 
