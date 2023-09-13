@@ -18,17 +18,9 @@ export interface AppStatus {
   Info?: string;
 }
 
-export interface AppInfo {
+export interface AppNamePath {
   name: string;
-  description: string;
-  version: string;
-  bucket: string;
-  website: string;
-  license: string;
-  updatedAt: string;
-  updatedBy: string;
-  installed: string;
-  shortcuts: string;
+  path: string;
 }
 
 export interface ScoopStatus {

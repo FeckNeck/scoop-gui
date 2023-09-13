@@ -7,6 +7,9 @@ Route.group(() => {
   Route.post("/import", "ScoopsController.import").as("import");
   Route.post("/export", "ScoopsController.export").as("export");
 
+  Route.post("/install/:id", "ScoopsController.install").as("install");
+  Route.delete("/uninstall/:id", "ScoopsController.uninstall").as("uninstall");
+
   Route.group(() => {
     Route.post("/", "ScoopsController.updateAll").as("updateAll");
     Route.put("/:id", "ScoopsController.update").as("update");
