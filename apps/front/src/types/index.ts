@@ -37,3 +37,8 @@ export interface ScoopStatus {
   status: string;
   apps: AppStatus[];
 }
+
+export interface Bucket {
+  name: string;
+  loading: boolean;
+}

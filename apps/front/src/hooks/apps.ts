@@ -5,6 +5,10 @@ import {
   getAvailableApps,
   getInstalledApps,
 } from "../services/apps";
+import { computed, ref } from "vue";
+
+const selectedApp = ref<string>("");
+const enabled = computed(() => selectedApp.value !== "");
 
 const useApps = () => {
   const { isLoading, data: apps, error } = useQuery(["apps"], () => getApps());
@@ -14,28 +18,31 @@ const useApps = () => {
 const useInstalledApps = () => {
   const {
     isLoading,
-    data: apps,
+    data: installedApps,
     error,
   } = useQuery(["installedApps"], () => getInstalledApps());
-  return { isLoading, apps, error };
+  return { isLoading, installedApps, error };
 };
 
 const useAvailableApps = () => {
   const {
     isLoading,
-    data: apps,
+    data: availableApps,
     error,
   } = useQuery(["availableApps"], () => getAvailableApps());
-  return { isLoading, apps, error };
+  return { isLoading, availableApps, error };
 };
 
-const useAppInfo = (app: string) => {
+const useAppInfo = () => {
   const {
     isLoading,
-    data: info,
+    isFetching,
+    data: appInfo,
     error,
-  } = useQuery(["appInfo", app], () => getApp(app));
-  return { isLoading, info, error };
+  } = useQuery(["appInfo", selectedApp], () => getApp(selectedApp.value), {
+    enabled: enabled,
+  });
+  return { isLoading, appInfo, error, isFetching };
 };
 
-export { useApps, useInstalledApps, useAppInfo, useAvailableApps };
+export { useApps, useInstalledApps, useAppInfo, useAvailableApps, selectedApp };

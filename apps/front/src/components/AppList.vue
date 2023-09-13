@@ -1,18 +1,17 @@
 <script setup lang="ts">
-import { useApps } from "../hooks/apps";
-
-// const { isLoading, apps, error } = useApps();
+import { selectedApp } from "../hooks/apps";
 </script>
 
 <template>
   <div class="apps-container">
     <!-- <p v-if="isLoading">loading...</p>
     <p v-else-if="error">error</p>
-    <ul v-else-if="apps" class="app-list">
-      <li v-for="app in apps" :key="app.url">
-        <p v-if="app.homepage === 'https://insomnia.rest'">{{ app }}</p>
+    <ul v-else class="app-list">
+      <li v-for="(app, index) in installedApps" :key="index">
+        {{ app }}
       </li>
     </ul> -->
+    <button @click="selectedApp = 'insomnia'">insomnia</button>
   </div>
 </template>
 
