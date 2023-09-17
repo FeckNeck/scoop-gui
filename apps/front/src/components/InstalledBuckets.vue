@@ -2,6 +2,7 @@
 import { useIsMutating } from "@tanstack/vue-query";
 import { useInstalledBuckets, useUninstallBucket } from "../hooks/buckets";
 import AppButton from "./AppButton.vue";
+import CustomButton from "./CustomButton.vue";
 
 const { buckets, isLoading, error } = useInstalledBuckets();
 const { mutate, isMutating } = useUninstallBucket();
@@ -10,24 +11,45 @@ const isMutatingBuckets = useIsMutating({ mutationKey: ["installBucket"] });
 </script>
 
 <template>
-  <div class="installed-buckets">
-    <p>Installed buckets</p>
+  <div class="bucket-container">
+    <p class="bucket-title">Installed buckets</p>
     <p v-if="isLoading || isMutating || isMutatingBuckets">loading...</p>
     <p v-else-if="error">error</p>
-    <div v-else>
-      <AppButton
-        v-for="bucket in buckets"
-        :key="bucket"
-        :label="bucket"
-        type="uninstall"
-        @handle-click="mutate(bucket)"
-      />
+    <div class="buckets" v-else>
+      <div class="bucket" v-for="bucket in buckets">
+        <span>{{ bucket }}</span>
+        <CustomButton
+          type="Uninstall"
+          :item="bucket"
+          @handle-click="mutate(bucket)"
+        />
+      </div>
     </div>
   </div>
 </template>
 
 <style scoped>
-.installed-buckets {
-  border-bottom: 1px solid #ccc;
+.bucket-container {
+  border-bottom: 1px solid lightgray;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 1rem 0.5rem;
+}
+
+.bucket-title {
+  text-align: center;
+}
+
+.bucket {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-block: 0.5rem;
+  border-bottom: 1px solid lightgray;
+}
+
+.bucket:last-child {
+  border-bottom: none;
 }
 </style>
