@@ -1,17 +1,29 @@
 <script setup lang="ts">
-import { selectedApp } from "../hooks/apps";
+import { selectedApp, useApps } from "../hooks/apps";
+import AppItem from "./AppItem.vue";
+
+const { apps, isLoading, error } = useApps();
 </script>
 
 <template>
   <div class="apps-container">
-    <!-- <p v-if="isLoading">loading...</p>
+    <p v-if="isLoading">loading...</p>
     <p v-else-if="error">error</p>
-    <ul v-else class="app-list">
-      <li v-for="(app, index) in installedApps" :key="index">
+    <!-- <div v-else class="app-list">
+      <AppItem v-for="app in apps" :app="app">
         {{ app }}
-      </li>
-    </ul> -->
-    <button @click="selectedApp = 'insomnia'">insomnia</button>
+      </AppItem>
+    </div> -->
+    <RecycleScroller
+      v-else
+      class="app-list"
+      :items="apps"
+      :item-size="40"
+      key-field="name"
+      v-slot="{ item }"
+    >
+      <AppItem :app="item" />
+    </RecycleScroller>
   </div>
 </template>
 

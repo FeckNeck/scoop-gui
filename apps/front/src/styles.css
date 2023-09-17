@@ -33,6 +33,10 @@
   margin: 0;
 }
 
+html {
+  overflow-y: hidden;
+}
+
 html,
 body,
 #app {
@@ -41,7 +45,7 @@ body,
 
 body {
   line-height: 1.5;
-  font-family: Nunito;
+  font-family: "Nunito";
   background-color: var(--primary);
   color: var(--text);
   overflow-x: hidden;

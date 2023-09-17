@@ -3,13 +3,16 @@ export interface AppContent {
   description: string;
   homepage: string;
   license: string;
-  suggest: {
-    java: string[];
-  };
+  shortcuts: string[];
   notes: string;
   url: string;
   hash: string;
   bin: string[];
+}
+
+export interface AppItem {
+  name: string;
+  path: string;
 }
 
 export interface AppStatus {
