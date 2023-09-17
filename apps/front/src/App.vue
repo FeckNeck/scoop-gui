@@ -1,12 +1,19 @@
 <script setup lang="ts">
+import { useQueryClient } from "@tanstack/vue-query";
 import AppContainer from "./components/AppContainer.vue";
 import AppInfo from "./components/AppInfo.vue";
 import AppStatus from "./components/AppStatus.vue";
 import AvailableBuckets from "./components/AvailableBuckets.vue";
 import InstalledBuckets from "./components/InstalledBuckets.vue";
+import ScoopModal from "./components/ScoopModal.vue";
+import { useScoopCheck } from "./hooks/scoop";
+import { watch } from "vue";
+
+const { isLoading, isScoopInstalled } = useScoopCheck();
 </script>
 
 <template>
+  <!-- <ScoopModal /> -->
   <div class="container">
     <aside>
       <InstalledBuckets />
@@ -51,6 +58,6 @@ main {
 footer {
   display: grid;
   grid-area: footer;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 </style>
