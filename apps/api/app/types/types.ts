@@ -3,9 +3,7 @@ export interface AppContent {
   description: string;
   homepage: string;
   license: string;
-  suggest: {
-    java: string[];
-  };
+  shortcuts: string[];
   notes: string;
   url: string;
   hash: string;
