@@ -5,6 +5,7 @@ import {
   getInstalledApps,
   getAvailableApps,
 } from "../../modules/scrap";
+import execa from "execa";
 
 export default class AppsController {
   public async index() {
