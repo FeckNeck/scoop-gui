@@ -1,12 +1,9 @@
 <script setup lang="ts">
 import { computed } from "vue";
 import { useAppInfo } from "../hooks/apps";
+import { ExternalLink } from "lucide-vue-next";
 
 const { isFetching, appInfo, error } = useAppInfo();
-
-// const name = computed(() => {
-//   return appInfo?.value?.bin[1] || appInfo?.value?.shortcuts[1] || "";
-// });
 </script>
 
 <template>
@@ -19,9 +16,9 @@ const { isFetching, appInfo, error } = useAppInfo();
       <p>Description: {{ appInfo.description }}</p>
       <p>Version: {{ appInfo.version }}</p>
       <a :href="appInfo.homepage" class="link" target="”_blank”"
-        ><span>{{ appInfo.homepage }}</span>
-        <img src="../assets/icons/external-link.svg" alt="external link"
-      /></a>
+        ><span class="text">{{ appInfo.homepage }}</span>
+        <ExternalLink :size="15" />
+      </a>
     </div>
     <p v-else>No application selected yet..</p>
   </div>
@@ -30,13 +27,14 @@ const { isFetching, appInfo, error } = useAppInfo();
 <style scoped>
 .app-info {
   border-right: 1px solid #ccc;
+  padding: 0.5rem;
 }
 
 .link {
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  span {
+  .text {
     color: var(--teal);
     text-decoration: underline;
   }

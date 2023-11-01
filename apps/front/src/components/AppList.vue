@@ -1,38 +1,68 @@
 <script setup lang="ts">
-import { selectedApp, useApps } from "../hooks/apps";
+import { computed } from "vue";
+import { useApps, useInstallApp, useUninstallApp } from "../hooks/apps";
+import { useScoopStatus, useScoopUpdate } from "../hooks/scoop";
+import { useVirtualList } from "@vueuse/core";
 import AppItem from "./AppItem.vue";
+import { currentApp } from "../hooks/apps";
 
-const { apps, isLoading, error } = useApps();
+const { appsToUpdate } = useScoopStatus();
+const { update } = useScoopUpdate();
+const { apps, error, isFetching } = useApps();
+const { install } = useInstallApp();
+const { uninstall } = useUninstallApp();
+
+const loadedApps = computed(() => {
+  return apps.value ?? [];
+});
+
+const { list, containerProps, wrapperProps } = useVirtualList(loadedApps, {
+  itemHeight: 70,
+});
+
+const manageApp = (app: any) => {
+  app.state === "installed" ? uninstall(app.name) : install(app.name);
+};
 </script>
 
 <template>
   <div class="apps-container">
-    <p v-if="isLoading">loading...</p>
+    <p v-if="isFetching">loading...</p>
     <p v-else-if="error">error</p>
-    <!-- <div v-else class="app-list">
-      <AppItem v-for="app in apps" :app="app">
-        {{ app }}
-      </AppItem>
-    </div> -->
-    <RecycleScroller
-      v-else
-      class="app-list"
-      :items="apps"
-      :item-size="40"
-      key-field="name"
-      v-slot="{ item }"
-    >
-      <AppItem :app="item" />
-    </RecycleScroller>
+    <p v-else-if="apps?.length === 0">No app found</p>
+    <div v-else-if="apps">
+      <div v-bind="containerProps" class="app-list">
+        <div v-bind="wrapperProps">
+          <AppItem
+            v-for="app in list"
+            :key="app.index"
+            :app="app.data"
+            :updatable="appsToUpdate?.includes(app.data.name)"
+            @manageApp="manageApp"
+            @updateApp="(appName) => update(appName)"
+            @displayAppInfos="(appName) => (currentApp = appName)"
+            class="app"
+          >
+          </AppItem>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
 <style scoped>
-.apps-container {
+.app-list {
+  height: calc(100vh - 15rem - 70px);
   overflow-y: auto;
+  padding-inline: 2rem;
 }
 
-.app-list {
-  height: 100%;
+.app {
+  height: 70px;
+  border-bottom: 1px solid var(--border);
+}
+
+.app:last-child {
+  border-bottom: none;
 }
 </style>

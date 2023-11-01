@@ -13,6 +13,8 @@ export interface AppContent {
 export interface AppItem {
   name: string;
   path: string;
+  state: "installed" | "available";
+  update?: boolean;
 }
 
 export interface AppStatus {
@@ -44,4 +46,10 @@ export interface ScoopStatus {
 export interface Bucket {
   name: string;
   loading: boolean;
+}
+
+export interface SearchParams {
+  appName?: string;
+  state?: string;
+  bucket?: string;
 }
