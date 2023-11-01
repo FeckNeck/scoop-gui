@@ -37,7 +37,7 @@ const { isLoading, isScoopInstalled } = useScoopCheck();
     "aside footer";
   grid-template-columns: 20rem 1fr;
   height: 100%;
-  grid-template-rows: 1fr 20rem;
+  grid-template-rows: 1fr 15rem;
 }
 
 aside {
