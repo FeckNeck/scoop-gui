@@ -1,8 +1,11 @@
 import { API_URL } from "../config";
-import { ScoopStatus } from "../types";
 
-const getScoopStatus = async (): Promise<ScoopStatus> => {
+const getScoopStatus = async (): Promise<string[]> => {
   return await fetch(`${API_URL}/scoop/status`).then((res) => res.json());
+};
+
+const getScoopCache = async (): Promise<string> => {
+  return await fetch(`${API_URL}/scoop/cache`).then((res) => res.text());
 };
 
 const checkScoop = async (): Promise<boolean> => {
@@ -17,11 +20,28 @@ const importScoop = async (): Promise<File> => {
 
 const exportScoop = async (): Promise<any> => {
   return await fetch(`${API_URL}/scoop/export`, { method: "POST" }).then(
-    (res) => {
-      console.log(res);
-      return res.blob();
-    }
+    (res) => res.json()
   );
 };
 
-export { getScoopStatus, checkScoop, importScoop, exportScoop };
+const updateScoop = async (item: string): Promise<string> => {
+  return await fetch(`${API_URL}/scoop/update/${item}`, {
+    method: "POST",
+  }).then((res) => res.text());
+};
+
+const cleanScoop = async (item: string): Promise<string> => {
+  return await fetch(`${API_URL}/scoop/clean/${item}`, {
+    method: "POST",
+  }).then((res) => res.text());
+};
+
+export {
+  getScoopStatus,
+  getScoopCache,
+  checkScoop,
+  importScoop,
+  exportScoop,
+  updateScoop,
+  cleanScoop,
+};

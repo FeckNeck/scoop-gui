@@ -1,27 +1,26 @@
 <script setup lang="ts">
-import { useIsMutating } from "@tanstack/vue-query";
 import { useInstalledBuckets, useUninstallBucket } from "../hooks/buckets";
-import AppButton from "./AppButton.vue";
 import CustomButton from "./CustomButton.vue";
+import { Upload } from "lucide-vue-next";
 
 const { buckets, isLoading, error } = useInstalledBuckets();
 const { mutate, isMutating } = useUninstallBucket();
-
-const isMutatingBuckets = useIsMutating({ mutationKey: ["installBucket"] });
 </script>
 
 <template>
   <div class="bucket-container">
     <p class="bucket-title">Installed buckets</p>
-    <p v-if="isLoading || isMutating || isMutatingBuckets">loading...</p>
+    <p v-if="isLoading || isMutating">loading...</p>
     <p v-else-if="error">error</p>
     <div class="buckets" v-else>
       <div class="bucket" v-for="bucket in buckets">
         <span>{{ bucket }}</span>
         <CustomButton
-          type="Uninstall"
+          label="Uninstall"
           :item="bucket"
-          @handle-click="mutate(bucket)"
+          @click="mutate(bucket)"
+          :icon="Upload"
+          :size="15"
         />
       </div>
     </div>
@@ -30,7 +29,7 @@ const isMutatingBuckets = useIsMutating({ mutationKey: ["installBucket"] });
 
 <style scoped>
 .bucket-container {
-  border-bottom: 1px solid lightgray;
+  border-bottom: 1px solid lightgrey;
   display: flex;
   flex-direction: column;
   gap: 1rem;
@@ -46,7 +45,7 @@ const isMutatingBuckets = useIsMutating({ mutationKey: ["installBucket"] });
   align-items: center;
   justify-content: space-between;
   padding-block: 0.5rem;
-  border-bottom: 1px solid lightgray;
+  border-bottom: 1px solid var(--border);
 }
 
 .bucket:last-child {
