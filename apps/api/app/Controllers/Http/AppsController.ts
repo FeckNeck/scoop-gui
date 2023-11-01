@@ -8,9 +8,21 @@ import {
 import execa from "execa";
 
 export default class AppsController {
-  public async index() {
+  public async index({ request }: HttpContextContract) {
+    const { appName, state, bucket } = request.qs();
     const apps = await getApps();
-    return apps;
+
+    if (!appName && !state && !bucket) {
+      return apps;
+    }
+
+    return apps.filter((app) => {
+      return (
+        (!appName || app.name.includes(appName)) &&
+        (!state || app.state === state) &&
+        (!bucket || app.path.includes(bucket))
+      );
+    });
   }
 
   public async show({ params }: HttpContextContract) {

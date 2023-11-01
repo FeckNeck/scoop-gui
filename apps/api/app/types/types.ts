@@ -21,6 +21,7 @@ export interface AppStatus {
 export interface AppNamePath {
   name: string;
   path: string;
+  state?: string;
 }
 
 export interface ScoopStatus {

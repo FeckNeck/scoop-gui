@@ -1,10 +1,5 @@
 import _ from "lodash";
-import {
-  AppContent,
-  ScoopStatus,
-  AppStatus,
-  AppNamePath,
-} from "../types/types";
+import { AppContent, AppNamePath } from "../types/types";
 import fs from "node:fs/promises";
 import path, { basename, extname } from "node:path";
 
@@ -76,82 +71,51 @@ const parseJsonFromFile = async (filePath: string): Promise<AppContent> => {
   }
 };
 
-const getApps = async function (): Promise<AppContent[]> {
-  try {
-    const files = await getDirectoryFiles(BUCKETS_PATH);
-    const apps = await parseJsonFiles(files);
-    return apps;
-  } catch (error: unknown) {
-    throw error;
-  }
-};
-
-const getScoopStatus = async function (stdout: string): Promise<ScoopStatus> {
+const getScoopStatus = async function (stdout: string): Promise<string[]> {
   const text = stdout.split("\n");
-  const lines = text.slice(4, text.length - 3);
-  const appStatus: AppStatus[] = lines.map((line) => {
+  const lines = text.slice(4, text.length - 1);
+  return lines.map((line) => {
     const appText = line.replace(/\s+/g, " ").trim();
-    const appInfos = appText.split(" ");
-    const [name, installedVersion, latestVersion, missingDependencies, Info] =
-      appInfos;
-    return { name, installedVersion, latestVersion, missingDependencies, Info };
+    return appText.split(" ")[0];
   });
-  return {
-    status: text[0],
-    apps: appStatus,
-  };
 };
 
 const getAppInfo = async function (appName: string) {
-  const availableApps = await getAvailableApps();
-  const installedApps = await getInstalledApps();
-  const availableAppsName = availableApps.flat();
-  const installedAppsName = installedApps.flat();
-  const appsName = _.unionBy(availableAppsName, installedAppsName, "name");
-  // const app = appsName.find(
-  //   (app) => app.name.toLocaleLowerCase() === appName.toLocaleLowerCase()
-  // );
-  // const data = await parseJsonFromFile(`${app.path}\\${app.name}.json`);
-  return appsName;
+  const apps = await getApps();
+  const app = apps.find(
+    (app) => app.name.toLocaleLowerCase() === appName.toLocaleLowerCase()
+  );
+  return await parseJsonFromFile(`${app?.path}\\${app?.name}.json`);
 };
 
-const getInstalledApps = async function (): Promise<AppNamePath[]> {
-  const apps = await getDirectoryFiles(`${SCOOP_PATH}\\apps`);
-  return apps.map((app) => ({
-    name: basename(app, extname(app)),
-    path: `${SCOOP_PATH}\\apps`,
-  }));
+const getInstalledApps = async function (): Promise<string[]> {
+  return await getDirectoryFiles(`${SCOOP_PATH}\\apps`);
 };
 
-const getAvailableAppsName = async function (): Promise<AppNamePath[]> {
+const getAvailableApps = async function (): Promise<AppNamePath[]> {
   const buckets = await getInstalledBuckets();
   const bucketPaths = buckets.map(
     (bucket) => `${BUCKETS_PATH}\\${bucket}\\bucket`
   );
-  const appNames = bucketPaths.map(async (path) => {
+  const availableApps = bucketPaths.map(async (path) => {
     const files = await getDirectoryFiles(path);
     return files.map((file) => ({
       path: path,
       name: basename(file, extname(file)),
     }));
   });
-
-  return Promise.all(appNames).then((result) => result.flat());
+  return Promise.all(availableApps).then((result) => result.flat());
 };
 
-const getAvailableApps = async function () {
+const getApps = async function (): Promise<AppNamePath[]> {
   const installedAppsList = await getInstalledApps();
-  const allAvailableApps = await Promise.all(await getAvailableAppsName());
-  const names = allAvailableApps.map((app) => ({
+  const availableApps = await Promise.all(await getAvailableApps());
+  const apps = availableApps.map((app) => ({
     name: app.name,
     path: app.path,
+    state: installedAppsList.includes(app.name) ? "installed" : "available",
   }));
-
-  return _.differenceBy(
-    names,
-    installedAppsList.map((app) => ({ name: app.name, path: app.path })),
-    "name"
-  );
+  return apps;
 };
 
 export {
