@@ -1,29 +1,21 @@
 <script setup lang="ts">
+import { Icon } from "lucide-vue-next";
+import { computed } from "vue";
+
 const props = defineProps<{
-  item: string;
-  type: "Install" | "Uninstall" | "Update";
+  item?: string;
+  label: string;
+  icon?: Icon;
+  size?: number;
 }>();
 
-defineEmits<{
-  handleClick: [item: string];
-}>();
+const title = computed(() => props.label + " " + props.item);
 </script>
 
 <template>
-  <button @click="$emit('handleClick', props.item)">
-    <span>{{ type }}</span>
-    <img
-      v-if="type === 'Install'"
-      src="../assets/icons/install.svg"
-      alt="install"
-      class="install"
-    />
-    <img
-      v-else
-      src="../assets/icons/uninstall.svg"
-      alt="uninstall"
-      class="uninstall"
-    />
+  <button :aria-label="title" :title="title">
+    <span>{{ label }}</span>
+    <component :is="icon" :size="size" />
   </button>
 </template>
 
@@ -32,16 +24,8 @@ button {
   display: flex;
   align-items: center;
   padding: 0.25rem 0.5rem;
-  border: 1px solid lightgray;
+  border: 2px solid var(--border);
   border-radius: 0.25rem;
   gap: 1rem;
-}
-
-.install {
-  rotate: 90deg;
-}
-
-.uninstall {
-  rotate: 270deg;
 }
 </style>
