@@ -30,10 +30,8 @@ const useInstallBucket = () => {
     mutationFn: (bucketName: string) => installBucket(bucketName),
     mutationKey: ["installBucket"],
     onSuccess(bucket) {
-      queryClient.setQueryData(["installedBuckets"], (buckets: any) => [
-        ...buckets,
-        bucket,
-      ]);
+      queryClient.invalidateQueries(["installedBuckets"]);
+      queryClient.invalidateQueries(["apps"]);
       queryClient.setQueryData(["availableBuckets"], (buckets: any) => [
         ...buckets.filter((b: string) => b !== bucket),
       ]);
@@ -48,12 +46,11 @@ const useUninstallBucket = () => {
     mutationFn: (bucketName: string) => uninstallBucket(bucketName),
     mutationKey: ["uninstallBucket"],
     onSuccess(bucket) {
+      queryClient.invalidateQueries(["installedBuckets"]);
+      queryClient.invalidateQueries(["apps"]);
       queryClient.setQueryData(["availableBuckets"], (buckets: any) => [
         ...buckets,
         bucket,
-      ]);
-      queryClient.setQueryData(["installedBuckets"], (buckets: any) => [
-        ...buckets.filter((b: string) => b !== bucket),
       ]);
     },
   });
