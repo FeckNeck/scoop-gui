@@ -16,6 +16,17 @@
       "shell": {
         "all": false,
         "open": true
+      },
+      "fs": {
+        "all": true,
+        "scope": [
+          "$DOWNLOAD",
+          "$DOWNLOAD/**"
+        ]
+      },
+      "dialog": {
+        "save": true,
+        "open": true
       }
     },
     "bundle": {
@@ -40,8 +51,8 @@
       {
         "fullscreen": false,
         "resizable": true,
-        "title": "front",
-        "width": 800,
+        "title": "Scoop GUI",
+        "width": 1280,
         "height": 600
       }
     ]
