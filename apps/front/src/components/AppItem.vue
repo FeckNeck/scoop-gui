@@ -26,8 +26,8 @@ const icon = computed(() => {
 
 <template>
   <div class="app-item" @click="emit('displayAppInfos', app.name)">
-    <div class="infos">
-      <span class="title">{{ app.name }}</span>
+    <div class="app-item__infos">
+      <span class="app-item__infos-title">{{ app.name }}</span>
       <span> {{ app.path }}</span>
     </div>
     <div class="btns">
@@ -57,15 +57,16 @@ const icon = computed(() => {
   align-items: center;
   width: 100%;
   cursor: pointer;
-  .infos {
-    display: flex;
-    gap: 1rem;
-    flex-grow: 1;
+}
 
-    .title {
-      font-weight: bold;
-    }
-  }
+.app-item__infos {
+  display: flex;
+  gap: 1rem;
+  flex-grow: 1;
+}
+
+.app-item__infos-title {
+  font-weight: bold;
 }
 
 .btns {

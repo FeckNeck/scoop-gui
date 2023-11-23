@@ -16,7 +16,7 @@ const { isFetching, appInfo, error } = useAppInfo();
       <p>Description: {{ appInfo.description }}</p>
       <p>Version: {{ appInfo.version }}</p>
       <a :href="appInfo.homepage" class="link" target="”_blank”"
-        ><span class="text">{{ appInfo.homepage }}</span>
+        ><span class="link-text">{{ appInfo.homepage }}</span>
         <ExternalLink :size="15" />
       </a>
     </div>
@@ -34,9 +34,10 @@ const { isFetching, appInfo, error } = useAppInfo();
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  .text {
-    color: var(--teal);
-    text-decoration: underline;
-  }
+}
+
+.link-text {
+  color: var(--teal);
+  text-decoration: underline;
 }
 </style>

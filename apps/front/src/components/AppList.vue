@@ -39,8 +39,8 @@ const manageApp = (app: any) => {
             :app="app.data"
             :updatable="appsToUpdate?.includes(app.data.name)"
             @manageApp="manageApp"
-            @updateApp="(appName) => update(appName)"
-            @displayAppInfos="(appName) => (currentApp = appName)"
+            @updateApp="(appName: string) => update(appName)"
+            @displayAppInfos="(appName: string) => (currentApp = appName)"
             class="app"
           >
           </AppItem>
