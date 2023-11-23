@@ -17,7 +17,7 @@ const useApps = () => {
     data: apps,
     error,
     isFetching,
-  } = useQuery(["apps", params], () => getApps(params));
+  } = useQuery({ queryKey: ["apps", params], queryFn: () => getApps(params) });
 
   return { isLoading, apps, error, isFetching };
 };
@@ -28,7 +28,9 @@ const useAppInfo = () => {
     isFetching,
     data: appInfo,
     error,
-  } = useQuery(["appInfo", currentApp], () => getApp(currentApp.value), {
+  } = useQuery({
+    queryKey: ["appInfo", currentApp],
+    queryFn: () => getApp(currentApp.value),
     enabled: enabled,
   });
 
@@ -38,35 +40,23 @@ const useAppInfo = () => {
 const useInstallApp = () => {
   const queryClient = useQueryClient();
 
-  const {
-    mutate: install,
-    isLoading,
-    error,
-  } = useMutation((app: string) => installApp(app), {
-    onSuccess: () => {
-      console.log("success");
-      console.log(queryClient);
-      queryClient.invalidateQueries(["apps"]);
-    },
+  const { mutate: install } = useMutation({
+    mutationFn: (app: string) => installApp(app),
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ["apps"] }),
   });
 
-  return { install, isLoading, error };
+  return { install };
 };
 
 const useUninstallApp = () => {
   const queryClient = useQueryClient();
 
-  const {
-    mutate: uninstall,
-    isLoading,
-    error,
-  } = useMutation((app: string) => uninstallApp(app), {
-    onSuccess: () => {
-      queryClient.invalidateQueries(["apps"]);
-    },
+  const { mutate: uninstall } = useMutation({
+    mutationFn: (app: string) => uninstallApp(app),
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ["apps"] }),
   });
 
-  return { uninstall, isLoading, error };
+  return { uninstall };
 };
 
 export {

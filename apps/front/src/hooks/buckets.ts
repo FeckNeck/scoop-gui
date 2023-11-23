@@ -11,7 +11,10 @@ const useInstalledBuckets = () => {
     isLoading,
     data: buckets,
     error,
-  } = useQuery(["installedBuckets"], getInstalledBuckets);
+  } = useQuery({
+    queryKey: ["installedBuckets"],
+    queryFn: getInstalledBuckets,
+  });
   return { isLoading, buckets, error };
 };
 
@@ -20,18 +23,21 @@ const useAvailableBuckets = () => {
     isLoading,
     data: buckets,
     error,
-  } = useQuery(["availableBuckets"], getAvailableBuckets);
+  } = useQuery({
+    queryKey: ["availableBuckets"],
+    queryFn: getAvailableBuckets,
+  });
   return { isLoading, buckets, error };
 };
 
 const useInstallBucket = () => {
   const queryClient = useQueryClient();
-  const { mutate, isLoading: isMutating } = useMutation({
+  const { mutate, isPending: isMutating } = useMutation({
     mutationFn: (bucketName: string) => installBucket(bucketName),
     mutationKey: ["installBucket"],
     onSuccess(bucket) {
-      queryClient.invalidateQueries(["installedBuckets"]);
-      queryClient.invalidateQueries(["apps"]);
+      queryClient.invalidateQueries({ queryKey: ["installedBuckets"] });
+      queryClient.invalidateQueries({ queryKey: ["apps"] });
       queryClient.setQueryData(["availableBuckets"], (buckets: any) => [
         ...buckets.filter((b: string) => b !== bucket),
       ]);
@@ -42,12 +48,12 @@ const useInstallBucket = () => {
 
 const useUninstallBucket = () => {
   const queryClient = useQueryClient();
-  const { mutate, isLoading: isMutating } = useMutation({
+  const { mutate, isPending: isMutating } = useMutation({
     mutationFn: (bucketName: string) => uninstallBucket(bucketName),
     mutationKey: ["uninstallBucket"],
     onSuccess(bucket) {
-      queryClient.invalidateQueries(["installedBuckets"]);
-      queryClient.invalidateQueries(["apps"]);
+      queryClient.invalidateQueries({ queryKey: ["installedBuckets"] });
+      queryClient.invalidateQueries({ queryKey: ["apps"] });
       queryClient.setQueryData(["availableBuckets"], (buckets: any) => [
         ...buckets,
         bucket,

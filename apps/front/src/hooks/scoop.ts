@@ -15,21 +15,23 @@ export function useScoopStatus() {
     isLoading,
     data: appsToUpdate,
     error,
-  } = useQuery(["status"], () => getScoopStatus(), {
-    refetchInterval: 180000, // 3 minutes
+  } = useQuery({
+    queryKey: ["status"],
+    queryFn: () => getScoopStatus(),
+    refetchInterval: 180000,
   });
   return { isLoading, appsToUpdate, error };
 }
 
 export function useScoopCache() {
-  const queryClient = useQueryClient();
-
   const {
     isLoading,
     data: cache,
     error,
-  } = useQuery(["cache"], () => getScoopCache(), {
-    refetchInterval: 180000, // 3 minutes
+  } = useQuery({
+    queryKey: ["cache"],
+    queryFn: () => getScoopCache(),
+    refetchInterval: 180000,
   });
 
   return { isLoading, cache, error };
@@ -40,9 +42,7 @@ export function useScoopCheck() {
     isLoading,
     data: isScoopInstalled,
     error,
-  } = useQuery(["check"], () => checkScoop(), {
-    enabled: true,
-  });
+  } = useQuery({ queryKey: ["check"], queryFn: () => checkScoop() });
 
   return { isLoading, isScoopInstalled, error };
 }
@@ -52,33 +52,29 @@ export function useScoopImport() {
     isLoading,
     data: importStatus,
     error,
-  } = useQuery(["import"], () => importScoop());
+  } = useQuery({ queryKey: ["import"], queryFn: () => importScoop() });
 
   return { isLoading, importStatus, error };
 }
 
 export function useScoopExport() {
-  const {
-    isLoading,
-    mutate: exportConfig,
-    error,
-  } = useMutation(["export"], () => exportScoop(), {
-    onSuccess: async (data) => {
+  const { mutate: exportConfig, error } = useMutation({
+    mutationKey: ["export"],
+    mutationFn: () => exportScoop(),
+    onSuccess(data) {
       const currentDate = new Date().toISOString().split("T")[0];
       const fileName = "scoop_" + currentDate + ".json";
-      const filePath = await save({
+      save({
         defaultPath: BaseDirectory.Download.toString() + "/" + fileName,
         filters: [{ name: "JSON", extensions: ["json"] }],
         title: "Save Scoop config",
+      }).then((filePath) => {
+        if (filePath) writeTextFile(filePath, JSON.stringify(data));
       });
-
-      if (filePath) {
-        await writeTextFile(filePath, JSON.stringify(data));
-      }
     },
   });
 
-  return { isLoading, error, exportConfig };
+  return { error, exportConfig };
 }
 
 export function useScoopUpdate() {
@@ -88,12 +84,15 @@ export function useScoopUpdate() {
     mutationKey: ["update"],
     mutationFn: (item: string) => updateScoop(item),
     onSuccess: () => {
-      queryClient.invalidateQueries(["status"]);
+      queryClient.invalidateQueries({ queryKey: ["status"] });
     },
   });
   return { update };
 }
 
 export function useScoopClean(item: string) {
-  useMutation(["clean", item], () => updateScoop(item));
+  useMutation({
+    mutationKey: ["clean", item],
+    mutationFn: () => updateScoop(item),
+  });
 }
