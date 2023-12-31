@@ -6,9 +6,7 @@ import { computed } from "vue";
 const isDark = useDark({
   selector: "html",
   attribute: "data-color-mode",
-  valueDark: "dark",
-  valueLight: "light",
-  initialValue: "light",
+  initialValue: "auto",
   disableTransition: false,
 });
 const toggleDark = useToggle(isDark);
