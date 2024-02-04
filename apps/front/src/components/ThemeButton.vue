@@ -6,6 +6,8 @@ import { computed } from "vue";
 const isDark = useDark({
   selector: "html",
   attribute: "data-color-mode",
+  valueLight: "light",
+  valueDark: "dark",
   initialValue: "auto",
   disableTransition: false,
 });
