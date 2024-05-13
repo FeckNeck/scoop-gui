@@ -1,6 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/vue-query";
 import { getApps, getApp, installApp, uninstallApp } from "../services/apps";
 import { computed, reactive, ref } from "vue";
+import { AppContent } from "../types";
 
 const currentApp = ref<string>("");
 const enabled = computed(() => currentApp.value !== "");
@@ -28,7 +29,7 @@ const useAppInfo = () => {
     isFetching,
     data: appInfo,
     error,
-  } = useQuery({
+  } = useQuery<AppContent>({
     queryKey: ["appInfo", currentApp],
     queryFn: () => getApp(currentApp.value),
     enabled: enabled,

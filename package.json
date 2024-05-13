@@ -1,12 +1,30 @@
 {
   "name": "scoop-gui",
-  "version": "1.0.0",
-  "description": "",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "pnpm run --parallel dev"
+    "dev": "vite",
+    "build": "vue-tsc --noEmit && vite build",
+    "preview": "vite preview",
+    "lint": "eslint .",
+    "format": "prettier --write .",
+    "tauri": "tauri"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC"
+  "dependencies": {
+    "@ark-ui/vue": "^0.11.0",
+    "@tanstack/vue-query": "^5.36.0",
+    "@tauri-apps/api": "^1.5.5",
+    "@vueuse/core": "^10.9.0",
+    "lucide-vue-next": "^0.378.0",
+    "vue": "^3.4.27"
+  },
+  "devDependencies": {
+    "@tauri-apps/cli": "^1.5.14",
+    "@types/node": "^20.12.11",
+    "@vitejs/plugin-vue": "^5.0.4",
+    "typescript": "^5.4.5",
+    "vite": "^5.2.11",
+    "vue-tsc": "^2.0.17"
+  }
 }
