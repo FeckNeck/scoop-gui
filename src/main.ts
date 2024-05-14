@@ -1,7 +1,8 @@
-import { createApp } from "vue";
-import App from "./App.vue";
-import "./styles.css";
-import { VueQueryPlugin, VueQueryPluginOptions } from "@tanstack/vue-query";
+import { createApp } from 'vue';
+import App from './App.vue';
+import './assets/css/main.scss';
+import { VueQueryPlugin, VueQueryPluginOptions } from '@tanstack/vue-query';
+
 const app = createApp(App);
 
 const vueQueryPluginOptions: VueQueryPluginOptions = {
@@ -15,4 +16,4 @@ const vueQueryPluginOptions: VueQueryPluginOptions = {
 };
 
 app.use(VueQueryPlugin, vueQueryPluginOptions);
-app.mount("#app");
+app.mount('#app');

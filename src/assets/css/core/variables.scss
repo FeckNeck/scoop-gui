@@ -1,0 +1,44 @@
+:root {
+  /* Text Sizes */
+  --text-h1: 2.5rem;
+  --text-h2: 2.25rem;
+  --text-h3: 1.25rem;
+  --text-xs: 0.75rem;
+  --text-sm: 0.875rem;
+  --text-base: 1rem;
+  --text-lg: 1.125rem;
+  --text-xl: 2.5rem;
+  --text-utility: 0.75rem;
+
+  /* Colors */
+  --teal: #14b8a6;
+
+  --gray-100: #f7f8fc;
+  --gray-200: #ffffff;
+  --gray-300: #f6f7f8;
+  --gray-400: #eaeaea;
+  --gray-700: #1e3851;
+  --gray-800: #102d44;
+  --gray-900: #0d2438;
+
+  --primary: var(--gray-300);
+  --secondary: var(--gray-200);
+  --ternary: var(--gray-100);
+  --border: var(--gray-400);
+  --text: #fff;
+
+  /* Shadows */
+  --shadow-tiny: 2px 2px 0 #1e293b;
+  --shadow-small: 4px 4px 0 #1e293b;
+  --shadow-medium: 8px 8px 0 #1e293b;
+  --shadow-large: 12px 12px 0 #1e293b;
+
+  /* Spacing */
+  --space: 4px;
+
+  /* Border Radius */
+  --rounded-sm: 4px;
+  --rounded: 8px;
+
+  /* Sizes */
+}

@@ -1,0 +1,40 @@
+html,
+body {
+  height: 100dvh;
+}
+
+html.dark {
+  --primary: var(--gray-900);
+  --secondary: var(--gray-800);
+  --ternary: var(--gray-700);
+  --border: var(--gray-700);
+  --text: #000;
+}
+
+body {
+  font-family: 'Nunito', sans-serif;
+  font-size: var(--text-base);
+  font-weight: 400;
+  background-color: var(--primary);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.container {
+  margin-inline: auto;
+  padding-inline: 2rem;
+  width: 100%;
+  max-width: 1280px;
+}
+
+h1 {
+  font-size: var(--text-h1);
+}
+
+h2 {
+  font-size: var(--text-h2);
+}
+
+h3 {
+  font-size: var(--text-h3);
+}
